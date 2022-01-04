@@ -1,0 +1,15 @@
+.header{
+    height: 100%;
+    background-color: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    border-bottom: 1px solid #e4e6eb;
+}
+
+.dropdown-button{
+    background-color: #0d6efd;
+    color: white;
+    border: 0;
+}

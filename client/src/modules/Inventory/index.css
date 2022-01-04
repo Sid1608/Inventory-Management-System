@@ -1,0 +1,31 @@
+.container-2xl{
+    height: 100vh;
+    background-color: #eee;
+    display: flex;
+}
+
+.sidebar-container{
+    height: 100vh;
+    width: 20vw;
+}
+
+.body-container{
+    height: 100%;
+    width: calc(100% - 20vw);
+}
+
+.header-container{
+    height: 8vh;
+    width: 100%;
+}
+
+.page-container{
+    overflow-y: auto;
+    height: calc(100% - 8vh);
+    width: 100%;
+}
+
+.logged-out-screen{
+    width: 100vw !important;
+    height: 100vh !important;
+}

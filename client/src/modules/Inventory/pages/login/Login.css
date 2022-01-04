@@ -1,0 +1,43 @@
+.login-container{
+    /* overflow: hidden; */
+    width: 100%;
+    height: 100%;
+    background-image: url(../../images/inventory.png);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.login-card{
+    display: flex;
+    height: 70vh;
+    width: 35vw;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+
+}
+
+.college-logo{
+    font-size: 5rem;
+    font-weight: 600;
+}
+
+.name{
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+.login-form{
+    display: flex;
+    width: 95%;
+    height: 40%;
+}
+
+.form-input{
+    height: 3rem;
+}

@@ -1,0 +1,38 @@
+.sidebar{
+    height: 100%;
+    width: 100%;
+    background-color: white;
+}
+
+.logo-container{
+    height: 8vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.nav-container{
+    padding-top: 1rem;
+}
+
+.nav-button{
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: left;
+    height: 3rem;
+}
+
+.nav-button:hover{
+    background-color: rgb(235, 235, 235);
+}
+
+.icon{
+    height: 1.5rem;
+    margin-right: 0.5rem;
+}
