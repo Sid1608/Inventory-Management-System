@@ -1,68 +1,88 @@
-import React from "react";
-import {SearchIcon} from "@heroicons/react/solid"
+import React, { useState, useEffect } from "react";
+import { SearchIcon } from "@heroicons/react/solid"
 import "../../common_styles.css";
+import axios from "axios";
 const IssuedItems = () => {
+  const [allIssuedItems, setIssuedItems] = useState([])
 
-  
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/admin/IssuedItems").then(res => {
+      console.log(res.data)
+      setIssuedItems(res.data)
+    })
+  }, [])
+
+
+  function toInventory(item) {
+        axios.patch(`http://localhost:8080/admin/toInventory/${item.item_name}`).then(res => {
+          alert("Item sent to Inventory");
+        }).catch(error => {
+          alert("error");
+          console.log(error);
+        })
+
+        axios.delete(`http://localhost:8080/admin/deleteIssuedItem/${item._id}`).then(res => {
+          console.log("issued item deleted");
+        }).catch(err => {
+          console.log(err);
+        })
+        
+        setIssuedItems((previtems) => {
+          return previtems.filter((items) => {
+            return item._id != items._id;
+          });
+        });
+  }
+
+
   return (
     <div className="main-body">
-    <h1>Issued Items</h1>
+      <h1>Issued Items</h1>
       <div className="content-box">
-       <div style={{display: 'flex', width: "100%", justifyContent: "center",marginBottom:"2rem"}}>
-          <div>
-            <input className="searchInput"/>
-          </div>
-          <div className="ml-2">
-            <button type="submit" className="btn btn-primary mr-2 searchButton">
-              <SearchIcon className="h-4 mr-1"/>
-              Search
-            </button>
-          </div>
-       </div>
+        <div style={{ display: 'flex', width: "100%", justifyContent: "center", marginBottom: "2rem" }}>
+        </div>
         <div className="card">
-        <div className="table-responsive">
-          <table className="table table-striped table-sm" style={{ width: "100%", height: "100%" }}>
-            <thead className="table__header">
-              <tr>
-                <th>Sno</th>
-                <th>Item Id</th>
-                <th>Item Name</th>
-                
-                <th>Description</th>
-                <th>Quantity</th>
-                <th className="text-center">Actions</th>
-               
-              </tr>
-            </thead>
-            <tbody className="table__body">
-              <tr>
-                <td>abc</td>
-                <td>8824885175</td>
-                <td className="address-box">abc</td>
-                <td>2000</td>
-                <td>
-                  <strong className="text-success"></strong>
-                  <small className="text-muted p-0 font-weight-bold">
-                  </small>
-                </td>
-
-                <td
-                  className="table__actions text-center"
-                >
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-                  To Inventory
-                </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <table className="table table-striped table-sm" style={{ width: "100%", height: "100%" }}>
+              <thead className="table__header">
+                <tr>
+                  <th>Sno</th>
+                  <th>Item Name</th>
+                  <th>Username</th>
+                  <th className="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="table__body">
+                {allIssuedItems.length > 0 ? allIssuedItems.map((item, i) => (
+                  <tr key={item._id}>
+                    <td>{i + 1}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        {item.item_name}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        {item.username}
+                      </span>
+                    </td>
+                    <td className="table__actions text-center"
+                      style={{ display: 'flex', justifyContent: "center", alignItems: "center" }}>
+                      <button className="bg-blue-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => { toInventory(item) }}>
+                        To Inventory
+                      </button>
+                    </td>
+                  </tr>
+                )) : <h2>No Issued Items</h2>}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
 
 export default IssuedItems;
-
 

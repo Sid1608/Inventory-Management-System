@@ -7,7 +7,7 @@ const mongoose = require("mongoose")
 exports.allOrders=function(req,res){
 		Order.find(function (err, orders) {
 			if (!err) {
-				res.status(200).json({order:orders});
+				res.status(200).json({orders:orders});
 			}
 			else {
 				res.send(err);
@@ -42,7 +42,35 @@ exports.searchOrder = function(req,res){
     }
   });
 }
+//Search the orders by Date
+exports.searchByOrderDate = function (req, res) {
 
+    let date = new Date(req.params.orderDate);
+    let date_converted = date.toDateString();
+
+    Order.find(function (err, orders) {
+        if (!err) {
+
+            let result = [];
+            let i;
+            for (i = 0; i < orders.length; i++) {
+
+                const date_to_be = new Date(orders[i].order_date);
+                let temp = date_to_be.toDateString();
+
+                if (temp === date_converted)
+                    result.push(orders[i]);
+            }
+
+            console.log(result);
+            res.send(result);
+        }
+        else {
+            res.send(err);
+        }
+    })
+
+}
 //Getting Recent Orders: to be display in user dashboard
 exports.recentOrder =async (req,res)=>{
     try{

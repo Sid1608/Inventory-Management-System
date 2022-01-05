@@ -7,7 +7,6 @@ export default function OrderItems() {
   const [rows, setRows] = useState([]);
    const [userId,setUserId]=useState(null);
   const [purpose,setPurpose]=useState("");
-  const [issuedItems,setIssuedItems]=useState([]);
   useEffect(() => {
     console.log(rows.length)
     setUserId(window.localStorage.getItem('userId'))
@@ -42,8 +41,9 @@ export default function OrderItems() {
       issued_items:rows,
     })
     .then(response => {
-      // alert("Order placed successfully");
-      // setRows([]);
+      alert("Order placed successfully");
+      setRows([]);
+      setPurpose("");
     })
     .catch(error => {
         console.log(error);

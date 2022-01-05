@@ -11,13 +11,13 @@ function Orders(){
 
   useEffect(() => {
     axios.get("http://localhost:8080/admin/orders").then(res => {
-      console.log(res.data.order)
-      getAllOrders(res.data.order)
+      console.log(res.data.orders)
+      getAllOrders(res.data.orders)
     })
   }, [])
   function AcceptOrder(order_id){
     axios.patch(`http://localhost:8080/admin/acceptOrder/${order_id}`).then(res => {
-      console.log(res.data.order)
+      console.log(res.data.orders)
       alert("Order Accepted!");
       getAllOrders((prevOrders) =>{
         return prevOrders.map((order) =>
@@ -32,7 +32,7 @@ function Orders(){
 
   function RejectOrder(order_id){
     axios.delete(`http://localhost:8080/admin/rejectOrder/${order_id}`).then(res => {
-      console.log(res.data.order);
+      console.log(res.data.orders);
       alert("Order Rejected!");
       getAllOrders((prevOrders) => {
         return prevOrders.filter((order) => {

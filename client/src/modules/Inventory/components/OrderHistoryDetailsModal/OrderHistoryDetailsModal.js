@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import axios from 'axios';
 
 const style = {
   position: 'absolute',
@@ -15,10 +16,32 @@ const style = {
   borderRadius: 2
 };
 
-export default function OrderHistoryDetailsModal() {
+export default function OrderHistoryDetailsModal({order}) {
+  console.log(order);
   const [open, setOpen] = React.useState(false);
+  const [orderData, setOrderData] = React.useState([])
+  const [retrieved, setRetrieved] = React.useState(false)
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setRetrieved(false)
+  }
+
+  // if (open && !retrieved) {
+  //   (function (order) {
+  //     console.log(order)
+  //     axios.get("http://localhost:8080/admin/searchOrder/" + order._id).then(res => {
+  //       console.log(res.data)
+  //       const orderDetails = {
+  //         total_items: res.data.item_count,
+  //         items: res.data.issued_items
+  //       }
+  //       setOrderData(orderDetails)
+  //     })
+  //   })(order)
+  //   setRetrieved(true)
+  // }
+
 
   return (
     <div>
@@ -37,7 +60,19 @@ export default function OrderHistoryDetailsModal() {
             Order Details
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            Total Items: {order.issued_items.length}
+            <br />
+            <ul>
+            {order.issued_items.map((item) => (
+                        <li>
+                            ItemName : {item.item_name} &nbsp;
+                            ItemCount :{item.item_count}  &nbsp;
+                            Description :{item.description}  &nbsp;
+                        </li>
+                )
+              )
+            } 
+            </ul>
           </Typography>
         </Box>
       </Modal>

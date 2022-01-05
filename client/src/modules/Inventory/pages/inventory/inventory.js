@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../common_styles.css";
 import { SearchIcon } from "@heroicons/react/solid"
 import Modal from "../../components/AddItemsModal/AddItemsModal"
+import Modals from "../../components/IssueItemModal/IssueItemModal"
 import "./Inventory.css"
 import axios from "axios";
 
@@ -17,11 +18,31 @@ const Inventory = () => {
   }, [])
 
   function go(item) {
-    //const { name, value } = event.target;
+
     setInventoryData((prev) => {
       return [...prev, item];
     });
+
+
   }
+
+  function goes(item_id) {
+    axios.patch(`http://localhost:8080/admin/issuedDecreaser/${item_id}`).then(res => {
+      setInventoryData((prevItems) => {
+        let newItem = prevItems.map((item) =>
+          item_id === item._id ? { ...item, issued_count: (item.issued_count + 1) } : item
+        );
+
+        return newItem.filter((item) => (item.item_count - item.issued_count) > 0);
+      });
+
+    }).catch(error => {
+      console.log(error);
+    })
+
+  }
+
+
   async function handleChange(event) {
     try {
       axios.get(`http://localhost:8080/admin/${event.target.value}`).then(res => {
@@ -31,23 +52,6 @@ const Inventory = () => {
       })
     } catch (error) {
       console.log(error)
-    }
-  }
-
-
-  function returnAllInventoryData(inventoryData) {
-    if (!inventoryData) {
-      return <h1>No Items Present</h1>
-    }
-    else {
-      return inventoryData.map((item, i) => (
-        <tr key={item._id}>
-          <td>{i + 1}</td>
-          <td>{item.item_name}</td>
-          <td>{item.item_description}</td>
-          <td>{item.item_count}</td>
-        </tr>
-      ))
     }
   }
 
@@ -95,22 +99,40 @@ const Inventory = () => {
         </div>
         <div className="card">
           <div className="table-responsive">
-            {inventoryData?.length > 0 ?
+            {inventoryData.length > 0 ?
               <table className="table table-striped" style={{ width: "100%", height: "100%" }}>
 
                 <thead className="table__header">
                   <tr>
                     <th>Sno</th>
                     <th>Item Name</th>
+                    <th>Item Cost</th>
                     <th>Description</th>
                     <th>Quantity</th>
+                    <th>Available</th>
+                    <th className="text-center">Actions</th>
                   </tr>
                 </thead>
 
                 <tbody className="table__body">
-                  {returnAllInventoryData(inventoryData)}
+                  {inventoryData.map((item, i) => (
+                    <tr key={item._id}>
+                      <td>{i + 1}</td>
+                      <td>{item.item_name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          {item.expected_cost}
+                        </span>
+                      </td>
+                      <td>{item.item_description}</td>
+                      <td>{item.item_count}</td>
+                      <td>{item.item_count - item.issued_count}</td>
+                      <td className="table__actions text-center" style={{ display: 'flex', justifyContent: "center", alignItems: "center" }} >
+                        <Modals item={item} goes={goes} />
+                      </td>
+                    </tr>))}
                 </tbody>
-              </table> : <h1>No items found</h1>}
+              </table> : <h2>No items found</h2>}
           </div>
         </div>
       </div>
