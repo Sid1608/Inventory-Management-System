@@ -27,20 +27,20 @@ export default function OrderHistoryDetailsModal({ order }) {
     setRetrieved(false)
   }
 
-  if (open && !retrieved) {
-    (function (order) {
-      console.log(order)
-      axios.get("http://localhost:8080/admin/searchOrder/" + order._id).then(res => {
-        console.log(res.data)
-        const orderDetails = {
-          total_items: res.data.item_count,
-          items: res.data.issued_items
-        }
-        setOrderData(orderDetails)
-      })
-    })(order)
-    setRetrieved(true)
-  }
+  // if (open && !retrieved) {
+  //   (function (order) {
+  //     console.log(order)
+  //     axios.get("http://localhost:8080/admin/searchOrder/" + order._id).then(res => {
+  //       console.log(res.data)
+  //       const orderDetails = {
+  //         total_items: res.data.item_count,
+  //         items: res.data.issued_items
+  //       }
+  //       setOrderData(orderDetails)
+  //     })
+  //   })(order)
+  //   setRetrieved(true)
+  // }
 
 
   return (

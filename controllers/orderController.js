@@ -35,7 +35,7 @@ exports.searchOrder = function(req,res){
   populate('user_id').
   exec(function (err, foundOrder) {
     if(!err){
-        res.send(foundOrder);
+        res.send({order:foundOrder});
     }
     else{
         res.send(err)

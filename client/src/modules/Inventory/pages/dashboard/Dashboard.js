@@ -1,22 +1,33 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import Modal from "../../components/OrderHistoryDetailsModal/OrderHistoryDetailsModal"
+import "./Dashboard.css"
 
 export default function Dashboard() {
   const [order, setOrder] = useState(null);
 
-  useEffect(async () => {
+  useEffect(() => {
+    getRecentOrder();
+  }, [])
+
+  async function getRecentOrder(){
     const userId = localStorage.getItem('userId');
     const response = await axios.get(`http://localhost:8080/user/dashboard/${userId}`);
     console.log(response.data);
     setOrder(response.data.order);
-  }, [])
+  }
 
   function date(dateto){
-
     const date_to_be = new Date(dateto)
     return date_to_be.toDateString()
+  }
 
+  function isVerified(status){
+    if(status){
+      return <span className='order-details'><b>Status:</b> Accepted</span>
+    }
+    else{
+      return <span className='order-details'><b>Status:</b> Pending</span>
+    }
   }
 
   return (
@@ -26,37 +37,30 @@ export default function Dashboard() {
 
       <div className="table-responsive">
         {Object.keys(order ?? {}).length > 0 ?
-          (<div className="card">
-            <h2>Recent Order Details</h2>
-            <table className="table table-striped table-sm" style={{ width: "100%", height: "100%" }}>
-              <thead className="table__header">
-                <tr>
-                  <th>Sno</th>
-                  <th>Order Date</th>
-                  <th>Total Cost</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="table__body">
+          (<div className="card" style={{padding: '1rem', height: '75vh'}}>
+            <b style={{fontSize: "30px", marginBottom: '0.5rem'}}>Recent Order Details</b>
+            <br />
+            <b style={{fontSize: "24px"}}>{order.remark}</b>
+            <br />
+            <b style={{fontSize: "24px"}}>Items: </b>
+            <br />
+            <ul>
+              {order.issued_items.map((item, i) => (
+                <li  style={{marginLeft: "10px"}}>
+                  <b className='order-details'>{i+1}. {item.item_name}</b>
+                  <br />
 
-                <tr key={order._id}>
-                  <td>{1}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      { date(order.order_date) }
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      {order.total_cost}
-                    </span>
-                  </td>
-                  <td>
-                    <Modal order = {order} />
-                  </td>
-                </tr>
-              </tbody>
-            </table> 
+                  <span style={{marginLeft: "20px", fontSize:"16px"}}>ItemCount : {item.item_count}</span>
+                  <br />
+                  <span style={{marginLeft: "20px", fontSize:"16px"}}>Description : {item.description}</span>
+                </li>
+              ))}
+            </ul>
+            <span className='order-details'><b>Order Date:</b> {date(order.order_date)}</span>
+            <br />
+            <span className='order-details'><b>Total Cost:</b> ₹{order.total_cost}</span>
+            <br />
+            {isVerified(order.isVerified)}
           </div>) : (<div className="card">
           <h2>No orders found</h2>
           </div>) }

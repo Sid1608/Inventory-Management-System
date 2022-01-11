@@ -27,37 +27,37 @@ export default function OrderItems() {
       return newRows;
     });
   }
-  function PlaceOrder(){
-    let idx=0;
-    let totalCost=0;
-    for(idx=0;idx<rows.length;idx++){
-      totalCost+=parseInt(rows[idx]["expected_cost"]);
-    }
-    axios.post("http://localhost:8080/user/orderItem",{
-      user_id:userId,
-      item_count:rows.length,
-      remark:purpose,
-      total_cost:totalCost,
-      issued_items:rows,
-    })
-    .then(response => {
-      alert("Order placed successfully");
-      setRows([]);
-      setPurpose("");
-    })
-    .catch(error => {
-        console.log(error);
-    });
-  }
-  const handleChange = (event, idx) => {
-    setRows(oldRows => {
-      const newRows = [...oldRows];
-      newRows[idx][event.target.name] = event.target.value;
-      return newRows;
-    });
+      function PlaceOrder(){
+        let idx=0;
+        let totalCost=0;
+        for(idx=0;idx<rows.length;idx++){
+          totalCost+=parseInt(rows[idx]["expected_cost"]);
+        }
+        axios.post("http://localhost:8080/user/orderItem",{
+          user_id:userId,
+          item_count:rows.length,
+          remark:purpose,
+          total_cost:totalCost,
+          issued_items:rows,
+        })
+        .then(response => {
+          alert("Order placed successfully");
+          setRows([]);
+          setPurpose("");
+        })
+        .catch(error => {
+            console.log(error);
+        });
+      }
+      const handleChange = (event, idx) => {
+        setRows(oldRows => {
+          const newRows = [...oldRows];
+          newRows[idx][event.target.name] = event.target.value;
+          return newRows;
+        });
 
-    console.log(rows[idx]["item_name"]); // Like this we can access the particular column of the idxth row
-  }
+        console.log(rows[idx]["item_name"]); // Like this we can access the particular column of the idxth row
+      }
 
   return (
     <div className="container p-4">

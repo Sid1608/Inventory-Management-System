@@ -42,7 +42,7 @@ exports.searchItem = function (req, res) {
 
     Item.find({ item_name: item }, function (err, foundItem) {
         if (!err) {
-            res.send(foundItem);
+            res.status(200).json({item:foundItem});
         }
         else {
             res.send(err);

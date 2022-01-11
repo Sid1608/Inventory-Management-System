@@ -14,6 +14,8 @@ function App({isLoggedIn, setIsLoggedIn, setIsAdmin, isAdmin}) {
 
   return (
       <Switch>
+
+      {/* auth routes */}
         <Route exact path="/inventory">
           {!isLoggedIn && (
             <Redirect to="/inventory/login" />
@@ -32,6 +34,8 @@ function App({isLoggedIn, setIsLoggedIn, setIsAdmin, isAdmin}) {
                 (<Redirect to = "/inventory/dashboard"/>)
               }
         </Route>
+        
+        {/* Users Route */}
         <Route path="/inventory/dashboard">
           {isLoggedIn ? <Dashboard /> : <Redirect to="/inventory/login" />}
         </Route>
@@ -41,6 +45,8 @@ function App({isLoggedIn, setIsLoggedIn, setIsAdmin, isAdmin}) {
         <Route path="/inventory/history">
             {isLoggedIn ? <OrderHistory/> : <Redirect to="/inventory/login" />}
         </Route>
+
+        {/* Admin Routes */}
         <Route path="/inventory/inventory">
         {isLoggedIn ? <Inventory /> : <Redirect to="/inventory/login" />}
         </Route>

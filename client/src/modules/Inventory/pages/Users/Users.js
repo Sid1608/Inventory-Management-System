@@ -40,9 +40,7 @@ const Users = () => {
   function passwordChange(passwordFromprops) {
     setAllUsers((prevUsers) => {
       return prevUsers.map((user) =>
-        user.password === passwordFromprops
-          ? { ...user, password: passwordFromprops }
-          : user
+        user.password === passwordFromprops ? { ...user, password: passwordFromprops } : user
       );
     });
   }
