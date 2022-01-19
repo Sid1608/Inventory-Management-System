@@ -45,29 +45,29 @@ export default function Login({setIsLoggedIn, setIsAdmin}){
                 <div className="login-form ">
                 <form className="mt-8 space-y-8 w-full" onSubmit={submitHandler}>
                 <input type="hidden" name="remember" defaultValue="true" />
-                <div className="rounded-md shadow-sm -space-y-px">
-                <div>
-                    <input
-                    id="username"
-                    name="username"
-                    required
-                    className="form-input  appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Username"
-                    ref={userInputRef}
-                    />
-                </div>
-                <div>
-                    <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className="form-input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Password"
-                    ref={passInputRef}
-                    />
-                </div>
+                <div style={{marginTop:"-20px"}} className="rounded-md shadow-sm -space-y-px">
+                    <div>
+                        <input
+                        id="username"
+                        name="username"
+                        required
+                        className="form-input  appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="Username"
+                        ref={userInputRef}
+                        />
+                    </div>
+                    <div>
+                        <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        className="form-input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="Password"
+                        ref={passInputRef}
+                        />
+                    </div>
                 </div>
 
                 <div>

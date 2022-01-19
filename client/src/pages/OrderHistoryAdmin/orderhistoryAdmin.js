@@ -31,8 +31,7 @@ export default function OrderHistoryAdmin() {
         console.log(error);
       });
   }
-
-
+  
   return (
     <div className="main-body">
       <h1>Order History</h1>

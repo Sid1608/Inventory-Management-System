@@ -12,6 +12,7 @@ import Login from "./pages/login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Sidebar from "./components/sidebar/Sidebar";
 import Header from "./components/header/Header";
+import Home from './Home'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,6 +44,10 @@ function App() {
           <div className={className}>
             <Switch>
               {/* auth routes */}
+              <Route exact path="/">
+                <Home/>
+              </Route>
+
               <Route exact path="/inventory">
                 {!isLoggedIn && <Redirect to="/inventory/login" />}
               </Route>
