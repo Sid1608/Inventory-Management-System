@@ -1,32 +1,121 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-import Employee from "./modules/Employee";
-import Inventory from "./modules/Inventory";
-import Exam from "./modules/Exam";
-import LectureHall from "./modules/LectureHall";
-import Home from "./Home";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import OrderItems from "./pages/OrderItems/OrderItems";
+import OrderHistory from "./pages/OrderHistory/orderhistory";
+import Inventory from "./pages/inventory/inventory";
+import Orders from "./pages/orders/Orders";
+import OrderHistoryAdmin from "./pages/OrderHistoryAdmin/orderhistoryAdmin";
+import IssuedItems from "./pages/IssuedItems/IssuedItems";
+import Users from "./pages/Users/Users";
+import Login from "./pages/login/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Sidebar from "./components/sidebar/Sidebar";
+import Header from "./components/header/Header";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  let className = "page-container";
+  if (!isLoggedIn) {
+    className += " logged-out-screen";
+  }
+  useEffect(() => {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      setIsLoggedIn(true);
+      setIsAdmin(JSON.parse(localStorage.getItem("isAdmin")));
+    }
+  }, []);
   return (
-    <Router>
-      <Switch>
-        <Route path="/inventory">
-          <Inventory />
-        </Route>
-        <Route path="/employee">
-          <Employee />
-        </Route>
-        <Route path="/lecturehall">
-          <LectureHall />
-        </Route>
-        <Route path="/exam">
-          <Exam />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
-    </Router>
+    <BrowserRouter>
+      <div className="container-2xl">
+        {isLoggedIn && (
+          <div className="sidebar-container">
+            <Sidebar isAdmin={isAdmin}></Sidebar>
+          </div>
+        )}
+        <div className="body-container">
+          {isLoggedIn && (
+            <div className="header-container">
+              <Header setIsLoggedIn={setIsLoggedIn}></Header>
+            </div>
+          )}
+          <div className={className}>
+            <Switch>
+              {/* auth routes */}
+              <Route exact path="/inventory">
+                {!isLoggedIn && <Redirect to="/inventory/login" />}
+              </Route>
+
+              <Route path="/inventory/login">
+                {!isLoggedIn ? (
+                  <Login
+                    setIsLoggedIn={setIsLoggedIn}
+                    setIsAdmin={setIsAdmin}
+                  />
+                ) : isAdmin ? (
+                  <Redirect to="/inventory/inventory" />
+                ) : (
+                  <Redirect to="/inventory/dashboard" />
+                )}
+              </Route>
+
+              {/* Users Route */}
+              <Route path="/inventory/dashboard">
+                {isLoggedIn ? (
+                  <Dashboard />
+                ) : (
+                  <Redirect to="/inventory/login" />
+                )}
+              </Route>
+              <Route path="/inventory/order-items">
+                {isLoggedIn ? (
+                  <OrderItems />
+                ) : (
+                  <Redirect to="/inventory/login" />
+                )}
+              </Route>
+              <Route path="/inventory/history">
+                {isLoggedIn ? (
+                  <OrderHistory />
+                ) : (
+                  <Redirect to="/inventory/login" />
+                )}
+              </Route>
+
+              {/* Admin Routes */}
+              <Route path="/inventory/inventory">
+                {isLoggedIn ? (
+                  <Inventory />
+                ) : (
+                  <Redirect to="/inventory/login" />
+                )}
+              </Route>
+              <Route path="/inventory/orders">
+                {isLoggedIn ? <Orders /> : <Redirect to="/inventory/login" />}
+              </Route>
+              <Route path="/inventory/order-history">
+                {isLoggedIn ? (
+                  <OrderHistoryAdmin />
+                ) : (
+                  <Redirect to="/inventory/login" />
+                )}
+              </Route>
+              <Route path="/inventory/issued-items">
+                {isLoggedIn ? (
+                  <IssuedItems />
+                ) : (
+                  <Redirect to="/inventory/login" />
+                )}
+              </Route>
+              <Route path="/inventory/users">
+                {isLoggedIn ? <Users /> : <Redirect to="/inventory/login" />}
+              </Route>
+            </Switch>
+          </div>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
 

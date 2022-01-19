@@ -36,7 +36,7 @@ function Orders(){
       alert("Order Rejected!");
       getAllOrders((prevOrders) => {
         return prevOrders.filter((order) => {
-          return order._id != order_id;
+          return order._id !== order_id;
         });
       });
       

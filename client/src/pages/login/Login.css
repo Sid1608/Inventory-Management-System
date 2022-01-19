@@ -8,7 +8,9 @@
     align-items: center;
     
 }
-
+.loginInputs{
+    margin-top: -1000px;
+}
 .login-card{
     display: flex;
     height: 70vh;
@@ -19,6 +21,7 @@
     align-items: center;
     flex-direction: column;
     padding: 1rem;
+    margin-top: -50px;
 
 }
 
@@ -40,4 +43,5 @@
 
 .form-input{
     height: 3rem;
+    margin-bottom: 5px;
 }
