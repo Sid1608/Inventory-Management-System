@@ -2,6 +2,7 @@
 
 const Order= require("../models/Order")
 const mongoose = require("mongoose")
+const sendMail=require("../utils/helpers/index")
 
 // getting all order: for admin
 exports.allOrders=function(req,res){
@@ -114,16 +115,34 @@ exports.orderItem =async (req,res)=>{
 
 
 //Reject Order  Request
-exports.rejectOrder =(req,res)=>{
+exports.rejectOrder =async (req,res)=>{
     const order_id=req.params.orderId;
-    Order.deleteOne({order_id:order_id},(err)=>{
-        if(err){
-            res.status(500).json(err);
-        }else{
-            res.status(200).json("order rejected successfully")
-        }
-    });
+    
+        Order.deleteOne({order_id:order_id},(err)=>{
+            if(err){
+                res.status(500).json(err);
+            }else{
+                const payload={
+                    from:'akarsiddharth@gmail.com',
+                    to:'siddharth.akar@qoala.id',
+                    subject:"Order Rejection Mail",
+                    text:"sorry you order has been not issued"
+                }
+                console.log("sending email notification");
+                sendMail(payload,function(err,data){
+                    if(err){
+                        console.log('error sending mail',err);
+                        res.status(400).json("mail not sent");
+                    }else{
+                        res.status(200).json("order rejected successfully")
+                    }
+                });
+                
+            }
+        });
+      
 }
+
 
 
 
@@ -138,6 +157,20 @@ exports.acceptOrder =(req,res)=>{
                         if(err){
                             res.status(500).json(err);
                         }else{
+                            const payload={
+                                from:'akarsiddharth@gmail.com',
+                                to:'siddharthakar1608@gmail.com',
+                                subject:"Order Rejection Mail",
+                                text:"hi you order has been accepted"
+                            }
+                            // sendMail(payload,function(err,data){
+                            //     if(err){
+                            //         console.log('error sending mail');
+                            //         res.status(400).json("mail not sent");
+                            //     }else{
+                            //         res.status(200).json("order rejected successfully")
+                            //     }
+                            // });
                             res.status(200).json("order verified successfully")
                         }
                     });
