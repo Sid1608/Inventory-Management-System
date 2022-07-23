@@ -25,6 +25,7 @@ export default function AddUserModal(props) {
     password: "",
     department: "",
     name: "",
+    email:""
   });
 
   const handleChange = (event) => {
@@ -41,7 +42,9 @@ export default function AddUserModal(props) {
       password: user.password,
       department: user.department,
       name: user.name,
+      email:user.email
     };
+    
     axios.post("http://localhost:8080/auth/register", newUser).then((res) => {
       console.log(res);
     });
@@ -51,6 +54,7 @@ export default function AddUserModal(props) {
       password: "",
       department: "",
       name: "",
+      email:""
     });
     handleClose();
     event.preventDefault();
@@ -118,6 +122,21 @@ export default function AddUserModal(props) {
                   id="new"
                   className="password"
                   value={user.department}
+                />
+              </div>
+            </div>
+            <div className="px-1">
+              <label htmlFor="new" className="label">
+                Email
+              </label>
+              <div className="w-full flex p-2 password-container">
+                <input
+                  name="email"
+                  onChange={handleChange}
+                  type="text"
+                  id="new"
+                  className="password"
+                  value={user.email}
                 />
               </div>
             </div>

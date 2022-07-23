@@ -7,28 +7,32 @@ import axios from "axios";
 const Users = () => {
   const [allUsers, setAllUsers] = useState([]);
 
-  async function getAllUsers() {
-    axios
-      .get("http://localhost:8080/admin/users")
-      .then((res) => {
-        setAllUsers(res.data.users);
-        console.log(res.data.users);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
+  
+ //getting all users details
   useEffect(() => {
+    async function getAllUsers() {
+      axios
+        .get("http://localhost:8080/admin/users")
+        .then((res) => {
+          setAllUsers(res.data.users);
+          console.log(res.data.users);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
     getAllUsers();
   }, []);
 
+
+  //adding new user to the state 
   function addUser(newUser) {
     setAllUsers((prevUsers) => {
       return [...prevUsers, newUser];
     });
   }
-
+   
+  //deleting user from the state
   function deleteUser(userNamefromProps) {
     setAllUsers((prevUsers) => {
       return prevUsers.filter((user) => {
@@ -37,6 +41,7 @@ const Users = () => {
     });
   }
 
+  //for changing user password in the state
   function passwordChange(passwordFromprops) {
     setAllUsers((prevUsers) => {
       return prevUsers.map((user) =>

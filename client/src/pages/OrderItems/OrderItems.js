@@ -4,29 +4,36 @@ import "./OrderItems.css"
 import axios from "axios";
 export default function OrderItems() {
 
-  const [rows, setRows] = useState([]);
-   const [userId,setUserId]=useState(null);
-  const [purpose,setPurpose]=useState("");
-  useEffect(() => {
-    console.log(rows.length)
-    setUserId(window.localStorage.getItem('userId'))
-    console.log(userId)
-  },[])
-  function addRows() {
-    setRows([...rows, {
-      item_name: "",
-      item_count:0,
-      description: "",
-      expected_cost: 0,
-    }]);
-  }
-  function deleteLastRow() {
-    setRows(oldRows => {
-      const newRows = [...oldRows];
-      newRows.pop();
-      return newRows;
-    });
-  }
+    const [rows, setRows] = useState([]);
+    const [userId,setUserId]=useState(null);
+    const [purpose,setPurpose]=useState("");
+
+    //Getting User Details
+      useEffect(() => {
+        console.log(rows.length)
+        setUserId(window.localStorage.getItem('userId'))
+        console.log(userId)
+      },[])
+
+      //add row
+      function addRows() {
+        setRows([...rows, {
+          item_name: "",
+          item_count:0,
+          description: "",
+          expected_cost: 0,
+        }]);
+      }
+      //delete Row
+      function deleteLastRow() {
+        setRows(oldRows => {
+          const newRows = [...oldRows];
+          newRows.pop();
+          return newRows;
+        });
+      }
+
+      //Placing Order
       function PlaceOrder(){
         let idx=0;
         let totalCost=0;

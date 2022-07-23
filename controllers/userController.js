@@ -39,6 +39,20 @@ exports.deleteUser= (req,res)=>{
     
     User.deleteOne({username:req.params.username},function(err){
         if(!err){
+            const payload={
+                from:'akarsiddharth@gmail.com',
+                to:'siddharthakar1608@gmail.com',
+                subject:"Order Rejection Mail",
+                text:"hi your are being deleted from the inventory management system"
+            }
+            // sendMail(payload,function(err,data){
+            //     if(err){
+            //         console.log('error sending mail');
+            //         res.status(400).json("mail not sent");
+            //     }else{
+            //         res.status(200).json("order rejected successfully")
+            //     }
+            // });
             res.status(200).json("user deleted successfully");
         }else{
             res.status(500).json(err);
