@@ -33,60 +33,21 @@ tls: {
     rejectUnauthorized: false
   }
 
-  const mailOptions = {
-    from: process.env.MAIL_USERNAME,
-    to: "siddharth.akar@qoala.id",
-    subject: "Node.js Email with Secure OAuth",
-    generateTextFromHTML: true,
-    html: "<b>test</b>"
-};
-// smtpTransport.sendMail(mailOptions, (error, response) => {
-//     error ? console.log(error) : console.log(response);
-//     smtpTransport.close();
-// });
-
-// const mailGun=require('nodemailer-mailgun-transport');
-
-
-// const auth={
-//     auth:{
-//         api_key:'',
-//         domain:''
-//     }
-// }
-
-// const tranporter=nodemailer.createTransport(mailGun(auth));
-// let transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//       type: 'OAuth2',
-//       user: process.env.MAIL_USERNAME,
-//       pass: process.env.MAIL_PASSWORD,
-//       clientId: process.env.OAUTH_CLIENTID,
-//       clientSecret: process.env.OAUTH_CLIENT_SECRET,
-//       refreshToken: process.env.OAUTH_REFRESH_TOKEN
-//     }
-//   });
-
 const sendMail=(payload,cb)=>{
     smtpTransport.sendMail(payload, (error, response) => {
-        error ? console.log(error) : console.log(response);
-        smtpTransport.close();
+        if(error){
+            cb(error,null);
+            console.log(error)
+        }else{
+            
+            console.log(response);
+            smtpTransport.close();
+            cb(null,response);
+        }
+         
+        
     });
-    // const mailOptions={
-    //     from:'akarsiddharth@gmail.com',
-    //     to:'akarsiddharth@gmail.com',
-    //     subject:'hello',
-    //     text:'hello'
-    // }
-    // console.log("INSIDE send Mail",process.env.OAUTH_CLIENTID)
-    //  transporter.sendMail(mailOptions,function(err,data) {
-    //     if(err){
-    //         cb(err,null);
-    //     }else{
-    //         cb(null,data);
-    //     }
-    // })
+    
 }
 
 

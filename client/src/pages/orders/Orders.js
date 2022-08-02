@@ -15,10 +15,12 @@ function Orders() {
   }, []);
 
   //for accepting orders
-  function AcceptOrder(order_id) {
-    axios
-      .patch(`http://localhost:8080/admin/acceptOrder/${order_id}`)
-      .then((res) => {
+  const AcceptOrder=async (order_id)=>{
+    try{
+
+    
+    const res=await axios.patch(`http://localhost:8080/admin/acceptOrder/${order_id}`)
+      // .then((res) => {
         console.log(res.data.orders);
         alert("Order Accepted!");
 
@@ -28,27 +30,31 @@ function Orders() {
             order_id === order._id ? { ...order, isVerified: true } : order
           );
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      // })
+      // .catch((error) => {
+      //   console.log(error);
+      // });
+    }catch(error){
+      console.log(error);
+    }
   }
 
-  function RejectOrder(order_id) {
-    axios
-      .delete(`http://localhost:8080/admin/rejectOrder/${order_id}`)
-      .then((res) => {
-        console.log(res.data.orders);
-        alert("Order Rejected!");
-        getAllOrders((prevOrders) => {
-          return prevOrders.filter((order) => {
-            return order._id !== order_id;
-          });
+  const  RejectOrder=async(order_id)=>{
+    try{
+
+    
+      const res=await axios.delete(`http://localhost:8080/admin/rejectOrder/${order_id}`)
+      console.log(res.data.orders);
+      alert("Order Rejected!");
+      getAllOrders((prevOrders) => {
+        return prevOrders.filter((order) => {
+          return order._id !== order_id;
         });
-      })
-      .catch((err) => {
-        console.log(err);
       });
+    }catch(error){
+      console.log(error);
+    }
+      
   }
   function date(dateto) {
     const date_to_be = new Date(dateto);

@@ -116,18 +116,22 @@ exports.orderItem =async (req,res)=>{
 
 //Reject Order  Request
 exports.rejectOrder =async (req,res)=>{
-    const order_id=req.params.orderId;
-    
-        Order.deleteOne({order_id:order_id},(err)=>{
+    try{
+        const order_id=req.params.orderId;
+        const order_details=await Order.findOne({_id:order_id}).populate("user_id")
+        console.log(order_details)
+        console.log(order_details?.user_id)
+        Order.deleteOne({_id:order_id},(err)=>{
             if(err){
                 res.status(500).json(err);
             }else{
                 const payload={
-                    from:'akarsiddharth@gmail.com',
-                    to:'siddharth.akar@qoala.id',
+                    from:process.env.MAIL_USERNAME,
+                    to:order_details.user_id?.email,
                     subject:"Order Rejection Mail",
-                    text:"sorry you order has been not issued"
+                    text:"sorry " + order_details.user_id?.name + " you order has  not been issued"
                 }
+                console.log(payload)
                 console.log("sending email notification");
                 sendMail(payload,function(err,data){
                     if(err){
@@ -139,7 +143,11 @@ exports.rejectOrder =async (req,res)=>{
                 });
                 
             }
+
         });
+    }catch(error){
+        console.log(error)
+    }
       
 }
 
@@ -147,9 +155,10 @@ exports.rejectOrder =async (req,res)=>{
 
 
 // Accept Order Request
-exports.acceptOrder =(req,res)=>{
+exports.acceptOrder =async(req,res)=>{
     const order_id=req.params.orderId;
     console.log(order_id);
+    const order_details=await Order.findOne({_id:order_id}).populate("user_id")
     Order.find({_id:order_id},(err,order)=>{
         if(!err){
                if(order){
@@ -157,21 +166,24 @@ exports.acceptOrder =(req,res)=>{
                         if(err){
                             res.status(500).json(err);
                         }else{
+                            
                             const payload={
-                                from:'akarsiddharth@gmail.com',
-                                to:'siddharthakar1608@gmail.com',
-                                subject:"Order Rejection Mail",
-                                text:"hi you order has been accepted"
+                                from:process.env.MAIL_USERNAME,
+                                to:order_details.user_id?.email,
+                                subject:"Order Acception Mail",
+                                text:"Hi " + order_details.user_id?.name + " your order has  not been accepted"
                             }
-                            // sendMail(payload,function(err,data){
-                            //     if(err){
-                            //         console.log('error sending mail');
-                            //         res.status(400).json("mail not sent");
-                            //     }else{
-                            //         res.status(200).json("order rejected successfully")
-                            //     }
-                            // });
-                            res.status(200).json("order verified successfully")
+                            console.log(payload)
+                            console.log("sending email notification");
+                            sendMail(payload,function(err,data){
+                                if(err){
+                                    console.log('error sending mail',err);
+                                    res.status(400).json("mail not sent");
+                                }else{
+                                    res.status(200).json("order accepted successfully")
+                                }
+                            });
+                            // res.status(200).json("order verified successfully")
                         }
                     });
 
