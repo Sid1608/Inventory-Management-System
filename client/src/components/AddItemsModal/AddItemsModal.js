@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import "./AddItemsModal.css";
 import axios from 'axios';
+import { publicRequest } from '../../axios';
 
 const style = {
   position: 'absolute',
@@ -44,7 +45,7 @@ export default function AddItemsModal(props) {
       expected_cost: item.expected_cost,
       item_count: item.item_count,
     };*/
-    axios.post("http://localhost:8080/admin/addItem", item).then((res) => {
+    publicRequest.post("admin/addItem", item).then((res) => {
       console.log(res);
       props.go(res.data.item);
     });

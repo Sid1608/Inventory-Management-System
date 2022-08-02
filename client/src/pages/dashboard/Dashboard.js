@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { publicRequest } from '../../axios';
 import "./Dashboard.css"
 
 export default function Dashboard() {
@@ -11,7 +12,8 @@ export default function Dashboard() {
 
   async function getRecentOrder(){
     const userId = localStorage.getItem('userId');
-    const response = await axios.get(`http://localhost:8080/user/dashboard/${userId}`);
+    // const response = await axios.get(`http://localhost:8080/user/dashboard/${userId}`);
+    const response = await publicRequest.get(`user/dashboard/${userId}`);
     console.log(response.data);
     setOrder(response.data.order);
   }

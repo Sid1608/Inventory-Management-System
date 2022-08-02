@@ -13,7 +13,7 @@ export default function Login({ setIsLoggedIn, setIsAdmin }) {
     try {
       axios.defaults.withCredentials = true;
       axios
-        .post("http://localhost:8080/auth/login", {
+        .post("https://inventory-backend-v1.herokuapp.com/auth/login", {
           username: userInputRef.current.value,
           password: passInputRef.current.value,
           withCredentials: true,

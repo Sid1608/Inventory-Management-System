@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
+import { publicRequest } from "../../axios";
 
 const style = {
   position: "absolute",
@@ -45,7 +46,7 @@ export default function AddUserModal(props) {
       email:user.email
     };
     
-    axios.post("http://localhost:8080/auth/register", newUser).then((res) => {
+    publicRequest.post("auth/register", newUser).then((res) => {
       console.log(res);
     });
     props.onAdd(newUser);

@@ -3,7 +3,8 @@ import "../../common_styles.css";
 import DeleteUserModal from "../../components/DeleteUserModal/DeleteUserModal";
 import ChangePasswordModal from "../../components/ChangePasswordModal/ChangePasswordModal";
 import AddUserModal from "../../components/AddUserModal/AddUserModal"
-import axios from "axios";
+import { publicRequest } from "../../axios";
+
 const Users = () => {
   const [allUsers, setAllUsers] = useState([]);
 
@@ -11,8 +12,8 @@ const Users = () => {
  //getting all users details
   useEffect(() => {
     async function getAllUsers() {
-      axios
-        .get("http://localhost:8080/admin/users")
+      publicRequest
+        .get("admin/users")
         .then((res) => {
           setAllUsers(res.data.users);
           console.log(res.data.users);

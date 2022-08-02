@@ -15,7 +15,7 @@ app.use(cookieParser())
 connectDB();
 //Middlewares
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://inventory-backend-v1.herokuapp.com/',
     credentials: true,
 }));
 app.use(express.json());

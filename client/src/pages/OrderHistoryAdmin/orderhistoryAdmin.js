@@ -3,12 +3,13 @@ import { SearchIcon } from "@heroicons/react/solid";
 import Modal from "../../components/OrderDetailsModal/OrderDetailsModal";
 import "../../common_styles.css";
 import axios from "axios";
+import { publicRequest } from "../../axios";
 
 export default function OrderHistoryAdmin() {
   const [orderHistoryAdminList, setOrderHistoryAdminList] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/admin/orders").then((res) => {
+    publicRequest.get("admin/orders").then((res) => {
       console.log(res.data.orders);
       setOrderHistoryAdminList(res.data.orders);
     });
@@ -22,8 +23,8 @@ export default function OrderHistoryAdmin() {
   function searchByDate() {
     let x = document.getElementById("date").value;
 
-    axios
-      .get(`http://localhost:8080/admin/searchByOrderDate/${x}`)
+    publicRequest
+      .get(`admin/searchByOrderDate/${x}`)
       .then((response) => setOrderHistoryAdminList(response.data))
       .catch((error) => {
         console.log(error);

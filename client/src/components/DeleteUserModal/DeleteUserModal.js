@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
+import { publicRequest } from "../../axios";
 
 const style = {
   position: "absolute",
@@ -22,8 +23,8 @@ function DeleteUserModal(props) {
   const handleClose = () => setOpen(false);
 
   const handleClick = (event) => {
-    axios
-      .delete(`http://localhost:8080/admin/deleteUser/${props.username}`)
+    publicRequest
+      .delete(`admin/deleteUser/${props.username}`)
       .then((res) => {
         console.log(res);
       });

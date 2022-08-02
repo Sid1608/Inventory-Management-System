@@ -2,6 +2,7 @@ import React, { useState ,useEffect} from 'react'
 import "../../common_styles.css";
 import "./OrderItems.css"
 import axios from "axios";
+import { publicRequest } from '../../axios';
 export default function OrderItems() {
 
     const [rows, setRows] = useState([]);
@@ -40,7 +41,7 @@ export default function OrderItems() {
         for(idx=0;idx<rows.length;idx++){
           totalCost+=parseInt(rows[idx]["expected_cost"]);
         }
-        axios.post("http://localhost:8080/user/orderItem",{
+        publicRequest.post("user/orderItem",{
           user_id:userId,
           item_count:rows.length,
           remark:purpose,

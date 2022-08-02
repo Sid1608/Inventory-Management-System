@@ -3,6 +3,7 @@ import { SearchIcon } from "@heroicons/react/solid"
 import "../../common_styles.css";
 import Modal from "../../components/OrderHistoryDetailsModal/OrderHistoryDetailsModal"
 import axios from "axios";
+import { publicRequest } from "../../axios";
 
 export default function Orderhistory() {
 
@@ -12,7 +13,7 @@ export default function Orderhistory() {
 
   useEffect(() => {
     const id = localStorage.getItem('userId')
-    axios.get(`http://localhost:8080/user/orderHistory/${id}`).then(res => {
+    publicRequest.get(`user/orderHistory/${id}`).then(res => {
       console.log(res.data.orders)
       setOrderHistoryList(res.data.orders)
     })

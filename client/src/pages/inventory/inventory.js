@@ -4,13 +4,13 @@ import { SearchIcon } from "@heroicons/react/solid";
 import Modal from "../../components/AddItemsModal/AddItemsModal";
 import Modals from "../../components/IssueItemModal/IssueItemModal";
 import "./Inventory.css";
-import axios from "axios";
+import { publicRequest } from "../../axios";
 
 const Inventory = () => {
   const [inventoryData, setInventoryData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/admin/inventory").then((res) => {
+    publicRequest.get("admin/inventory").then((res) => {
       setInventoryData(res.data.items);
       console.log(res.data);
     });
@@ -23,8 +23,8 @@ const Inventory = () => {
   }
 
   function goes(item_id) {
-    axios
-      .patch(`http://localhost:8080/admin/issuedDecreaser/${item_id}`)
+    publicRequest
+      .patch(`admin/issuedDecreaser/${item_id}`)
       .then((res) => {
         setInventoryData((prevItems) => {
           let newItem = prevItems.map((item) =>
@@ -45,8 +45,8 @@ const Inventory = () => {
 
   async function handleChange(event) {
     try {
-      axios
-        .get(`http://localhost:8080/admin/${event.target.value}`)
+      publicRequest
+        .get(`admin/${event.target.value}`)
         .then((res) => {
           var inventoryItems = res.data.items;
           setInventoryData(inventoryItems);
@@ -60,8 +60,8 @@ const Inventory = () => {
   function searchByName() {
     let x = document.getElementById("item").value;
 
-    axios
-      .get(`http://localhost:8080/admin/searchItem/${x}`)
+    publicRequest
+      .get(`admin/searchItem/${x}`)
       .then((response) => setInventoryData(response.data))
       .catch((error) => {
         console.log(error);

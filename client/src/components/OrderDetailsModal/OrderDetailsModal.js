@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
+import { publicRequest } from "../../axios";
 
 const style = {
   position: "absolute",
@@ -28,8 +29,8 @@ function OrderDetailsModal({ order }) {
 
   if (open && !retrieved) {
     console.log(order);
-    axios
-      .get("http://localhost:8080/admin/searchOrder/" + order._id)
+    publicRequest
+      .get("admin/searchOrder/" + order._id)
       .then((res) => {
         console.log(res.data.order);
         setOrderData(res.data.order);

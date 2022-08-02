@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { SearchIcon } from "@heroicons/react/solid"
 import "../../common_styles.css";
 import axios from "axios";
+import { publicRequest } from "../../axios";
 const IssuedItems = () => {
   const [allIssuedItems, setIssuedItems] = useState([])
 
 
   useEffect(() => {
-    axios.get("http://localhost:8080/admin/IssuedItems").then(res => {
+    publicRequest.get("admin/IssuedItems").then(res => {
       console.log(res.data)
       setIssuedItems(res.data)
     })
@@ -15,14 +16,14 @@ const IssuedItems = () => {
 
 
   function toInventory(item) {
-        axios.patch(`http://localhost:8080/admin/toInventory/${item.item_name}`).then(res => {
+    publicRequest.patch(`admin/toInventory/${item.item_name}`).then(res => {
           alert("Item sent to Inventory");
         }).catch(error => {
           alert("error");
           console.log(error);
         })
 
-        axios.delete(`http://localhost:8080/admin/deleteIssuedItem/${item._id}`).then(res => {
+        publicRequest.delete(`admin/deleteIssuedItem/${item._id}`).then(res => {
           console.log("issued item deleted");
         }).catch(err => {
           console.log(err);

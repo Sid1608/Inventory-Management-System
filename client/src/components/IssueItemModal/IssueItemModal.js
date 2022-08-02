@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import axios from 'axios';
+import { publicRequest } from '../../axios';
 
 const style = {
     position: 'absolute',
@@ -35,7 +36,7 @@ export default function AddItemsModal(props) {
 
     const onSubmit = (event) => {
         issueitem.item_name = props.item.item_name;
-        axios.post("http://localhost:8080/admin/issueItem", issueitem).then((res) => {
+        publicRequest.post("admin/issueItem", issueitem).then((res) => {
             alert("Issued successfully!");
             console.log(res);
             props.goes(props.item._id);

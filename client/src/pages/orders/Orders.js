@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import "../../common_styles.css";
 import { SearchIcon } from "@heroicons/react/solid";
 import Modal from "../../components/OrderDetailsModal/OrderDetailsModal";
-import axios from "axios";
+import  { publicRequest } from "../../axios";
 
 function Orders() {
   const [allOrders, getAllOrders] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/admin/orders").then((res) => {
+    publicRequest.get("admin/orders").then((res) => {
       console.log(res.data.orders);
       getAllOrders(res.data.orders);
     });
@@ -19,7 +19,7 @@ function Orders() {
     try{
 
     
-    const res=await axios.patch(`http://localhost:8080/admin/acceptOrder/${order_id}`)
+    const res=await publicRequest.patch(`admin/acceptOrder/${order_id}`)
       // .then((res) => {
         console.log(res.data.orders);
         alert("Order Accepted!");
@@ -43,7 +43,7 @@ function Orders() {
     try{
 
     
-      const res=await axios.delete(`http://localhost:8080/admin/rejectOrder/${order_id}`)
+      const res=await publicRequest.delete(`admin/rejectOrder/${order_id}`)
       console.log(res.data.orders);
       alert("Order Rejected!");
       getAllOrders((prevOrders) => {

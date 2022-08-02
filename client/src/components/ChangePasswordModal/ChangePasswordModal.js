@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import "./ChangePasswordModal.css";
 import axios from "axios";
+import { publicRequest } from "../../axios";
 
 const style = {
   position: "absolute",
@@ -24,8 +25,8 @@ function ChangePasswordModal(props) {
   const handleClose = () => setOpen(false);
 
   function handleSubmit() {
-    axios
-      .patch("http://localhost:8080/admin/updateUser", {
+    publicRequest
+      .patch("admin/updateUser", {
         username: props.username,
         password: newPassword,
         department: props.department,
