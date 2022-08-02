@@ -32,6 +32,11 @@ export default function Login({ setIsLoggedIn, setIsAdmin }) {
           //   localStorage.setItem("isAdmin", "false");
           // }
           // console.log(response.data.user.isAdmin)
+          var hours = 1; // to clear the localStorage after 1 hour
+          // (if someone want to clear after 8hrs simply change hours=8)
+          var now = new Date().getTime();
+          
+          localStorage.setItem('setupTime', now)
           localStorage.setItem("isAdmin", response.data.user.isAdmin);
           setIsAdmin(response.data.user.isAdmin);
           localStorage.setItem("isLoggedIn", "true");
